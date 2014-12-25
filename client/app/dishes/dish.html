@@ -1,0 +1,13 @@
+<div class="col-md-12">
+  <ul>
+    <li ng-repeat="dish in dishes">{{dish.name}} - {{dish.price}}</li>
+  </ul>
+  <br/>
+
+  <form ng-submit="saveDish()">
+    <input type="text" ng-model="newDish.name" />
+    <input type="text" ng-model="newDish.price"/>
+    <input type="submit" class="btn btn-primary" value="Save"/>
+  </form>
+
+</div>
