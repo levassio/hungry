@@ -3,9 +3,9 @@
 angular.module('hungryApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('main', {
+      .state('orders', {
         url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'app/orders/orders.html',
+        controller: 'OrdersCtrl'
       });
   });

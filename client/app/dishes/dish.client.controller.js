@@ -3,6 +3,7 @@
 angular.module('hungryApp')
   .controller('DishesCtrl', function ($scope, $http) {
     $scope.newDish = {};
+    $scope.dishes = [];
 
     function reloadDishes() {
       $http.get('/api/dishes').then(function success(results) {
@@ -12,8 +13,7 @@ angular.module('hungryApp')
 
     reloadDishes();
 
-    $scope.saveDish = function () {
-//      $event.preventDefault();
+    $scope.addDish = function () {
       $http
         .post('api/dishes',$scope.newDish)
         .then(function success() {

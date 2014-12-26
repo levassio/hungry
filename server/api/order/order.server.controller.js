@@ -5,7 +5,7 @@ var Order = require('./order.server.model.js');
 
 // Get list of orders
 exports.index = function(req, res) {
-  Order.find().populate('User').populate("Dish").exec(function (err, orders) {
+  Order.find().populate('_user _dish').exec(function (err, orders) {
     if(err) { return handleError(res, err); }
     return res.json(200, orders);
   });

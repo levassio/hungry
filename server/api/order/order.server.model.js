@@ -13,7 +13,8 @@ var OrderSchema = new Schema({
     ref: 'Dish'
   },
   comment: String,
-  orderDate: Date
+  isPaid: Boolean,
+  _session: Number
 });
 
 module.exports = mongoose.model('Order', OrderSchema);
