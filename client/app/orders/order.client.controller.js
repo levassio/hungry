@@ -1,34 +1,35 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('OrdersCtrl', function ($scope, Auth, $http) {
+  .controller('OrdersCtrl', function (Auth, $http) {
+    var cl = this;
 
-    $scope.newOrder = {};
-    $scope.orders = [];
-    $scope.dishes = [];
+    cl.newOrder = {};
+    cl.orders = [];
+    cl.dishes = [];
 
     function reloadOrders() {
       $http.get('/api/orders').then(function success(results) {
-        $scope.orders = results.data;
+        cl.orders = results.data;
       });
     }
 
     function reloadDishes() {
       $http.get('/api/dishes').then(function success(results) {
-        $scope.dishes = results.data;
+        cl.dishes = results.data;
         reloadOrders();
       });
     }
 
     reloadDishes();
 
-    $scope.addOrder = function () {
-      $scope.newOrder._user = Auth.getCurrentUser()._id;
+    cl.save = function () {
+      cl.newOrder._user = Auth.getCurrentUser()._id;
 
       $http
-        .post('api/orders',$scope.newOrder)
+        .post('api/orders',cl.newOrder)
         .then(function success() {
-          $scope.newOrder = {};
+          cl.newOrder = {};
           reloadOrders();
         });
       return false;

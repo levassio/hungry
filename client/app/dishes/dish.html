@@ -1,6 +1,6 @@
 <div class="col-sm-6">
   <table class="table table-striped table-hover table-condensed">
-    <tr ng-repeat="dish in dishes">
+    <tr ng-repeat="dish in cl.dishes">
       <td>
         {{dish.name}}
       </td>
@@ -11,12 +11,12 @@
   </table>
   <br/>
 
-  <form ng-submit="addDish()">
+  <form ng-submit="cl.save()">
     <div class="col-sm-6">
-      <input class="form-control" type="text" ng-model="newDish.name"/>
+      <input class="form-control" type="text" ng-model="cl.newDish.name"/>
     </div>
     <div class="col-sm-3">
-      <input class="form-control" type="text" ng-model="newDish.price"/>
+      <input class="form-control" type="text" ng-model="cl.newDish.price"/>
     </div>
     <div class="col-sm-3">
       <input type="submit" class="btn btn-primary" value="Save"/>

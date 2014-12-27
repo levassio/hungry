@@ -1,26 +1,25 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('DishesCtrl', function ($scope, $http) {
-    $scope.newDish = {};
-    $scope.dishes = [];
+  .controller('DishesCtrl', function (Dish) {
+    var cl = this;
 
-    function reloadDishes() {
-      $http.get('/api/dishes').then(function success(results) {
-        $scope.dishes = results.data;
+    cl.newDish = new Dish();
+    cl.dishes = Dish.query();
+
+    cl.save = function () {
+      cl.newDish.$save(function () {
+        cl.dishes.push(cl.newDish);
+        cl.newDish = new Dish();
       });
-    }
 
-    reloadDishes();
-
-    $scope.addDish = function () {
-      $http
-        .post('api/dishes',$scope.newDish)
-        .then(function success() {
-          $scope.newDish = {};
-          reloadDishes();
-        });
       return false;
+    };
+
+    cl.delete = function (dish) {
+      dish.delete(function () {
+        _.remove(cl.dishes, dish);
+      });
     };
 
   });

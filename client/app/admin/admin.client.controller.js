@@ -1,16 +1,16 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('AdminCtrl', function ($scope, $http, Auth, User) {
+  .controller('AdminCtrl', function (Auth, User) {
+    var cl = this;
 
-    // Use the User $resource to fetch all users
-    $scope.users = User.query();
+    cl.users = User.query();
 
-    $scope.delete = function(user) {
-      User.remove({ id: user._id });
-      angular.forEach($scope.users, function(u, i) {
+    cl.delete = function (user) {
+      User.delete({ id: user._id });  //todo: use callback to be sure it's deleted
+      angular.forEach(cl.users, function (u, i) {
         if (u === user) {
-          $scope.users.splice(i, 1);
+          cl.users.splice(i, 1);
         }
       });
     };

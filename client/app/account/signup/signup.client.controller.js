@@ -1,33 +1,35 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location) {
-    $scope.user = {};
-    $scope.errors = {};
+  .controller('SignupCtrl', function (Auth, $location) {
+    var cl = this;
 
-    $scope.register = function(form) {
-      $scope.submitted = true;
+    cl.user = {};
+    cl.errors = {};
 
-      if(form.$valid) {
+    cl.register = function (form) {
+      cl.submitted = true;
+
+      if (form.$valid) {
         Auth.createUser({
-          name: $scope.user.name,
-          email: $scope.user.email,
-          password: $scope.user.password
+          name: cl.user.name,
+          email: cl.user.email,
+          password: cl.user.password
         })
-        .then( function() {
-          // Account created, redirect to home
-          $location.path('/');
-        })
-        .catch( function(err) {
-          err = err.data;
-          $scope.errors = {};
+          .then(function () {
+            // Account created, redirect to home
+            $location.path('/');
+          })
+          .catch(function (err) {
+            err = err.data;
+            cl.errors = {};
 
-          // Update validity of form fields that match the mongoose errors
-          angular.forEach(err.errors, function(error, field) {
-            form[field].$setValidity('mongoose', false);
-            $scope.errors[field] = error.message;
+            // Update validity of form fields that match the mongoose errors
+            angular.forEach(err.errors, function (error, field) {
+              form[field].$setValidity('mongoose', false);
+              cl.errors[field] = error.message;
+            });
           });
-        });
       }
     };
 

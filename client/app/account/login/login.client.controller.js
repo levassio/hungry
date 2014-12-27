@@ -1,25 +1,26 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location) {
-    $scope.user = {};
-    $scope.errors = {};
+  .controller('LoginCtrl', function (Auth, $location) {
+    var cl = this;
 
-    $scope.login = function(form) {
-      $scope.submitted = true;
+    cl.user = {};
+    cl.errors = {};
 
-      if(form.$valid) {
+    cl.login = function (form) {
+      cl.submitted = true;
+
+      if (form.$valid) {
         Auth.login({
-          email: $scope.user.email,
-          password: $scope.user.password
+          email: cl.user.email,
+          password: cl.user.password
         })
-        .then( function() {
-          // Logged in, redirect to home
-          $location.path('/');
-        })
-        .catch( function(err) {
-          $scope.errors.other = err.message;
-        });
+          .then(function () {
+            $location.path('/');
+          })
+          .catch(function (err) {
+            cl.errors.other = err.message;
+          });
       }
     };
 
