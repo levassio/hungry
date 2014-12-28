@@ -17,7 +17,7 @@ angular.module('hungryApp')
     };
 
     cl.delete = function (dish) {
-      dish.delete(function () {
+      Dish.delete(dish, function () {
         _.remove(cl.dishes, dish);
       });
     };
