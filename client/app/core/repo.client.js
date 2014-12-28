@@ -3,7 +3,7 @@ angular.module('hungryApp').
     this.$get = ['$q',
       function ($q) {
 
-        function RepoFactory($res) {
+        function RepoBase($res) {
           var repo = $res.query();
 
           var create = function () {
@@ -51,7 +51,7 @@ angular.module('hungryApp').
           this.delete = remove;
         }
 
-        return RepoFactory;
+        return RepoBase;
       }
     ];
   });
