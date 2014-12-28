@@ -6,15 +6,25 @@ var mongoose = require('mongoose'),
 var OrderSchema = new Schema({
   _user: {
     type: Schema.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
+
   _dish: {
     type: Schema.ObjectId,
-    ref: 'Dish'
+    ref: 'Dish',
+    required: true
   },
+
   comment: String,
-  isPaid: Boolean,
-  _session: Number
+
+  isPaid: {
+    type: Boolean, default: false
+  },
+
+  _session: {
+    type: Number, default: 1
+  }
 });
 
 module.exports = mongoose.model('Order', OrderSchema);
