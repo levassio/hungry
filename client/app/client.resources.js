@@ -9,9 +9,16 @@ angular.module('hungryApp')
       }
     });
 
-    return new Repo(res);li
+    return new Repo(res);
   }])
 
-  .factory('Order', ['$resource', function ($resource) {
-    return $resource('/api/orders/:orderId', { orderID: '@id' });
+  .factory('OrderRepo', ['$resource', 'Repo', function ($resource, Repo) {
+
+    var res = $resource('/api/orders/:id', {}, {
+      update:{
+        method: 'PUT'
+      }
+    });
+
+    return new Repo(res);
   }]);

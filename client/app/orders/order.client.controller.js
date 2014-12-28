@@ -1,24 +1,47 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('OrdersCtrl',['Auth','Order','DishRepo',
-    function (Auth, Order, DishRepo) {
-    var cl = this;
+  .controller('OrdersCtrl',['Auth','OrderRepo','DishRepo',
+    function (Auth, OrderRepo, DishRepo) {
+      var cl = this;
 
-    cl.newOrder = new Order();
-    cl.orders = Order.query();
-    cl.dishes = DishRepo.all;
+      cl.currentOrder = createNewOrder();
+      cl.orders = OrderRepo.all;
+      cl.rollbackOrder = {};
+      cl.dishes = DishRepo.all;
 
-    cl.save = function () {
-      cl.newOrder._user = Auth.getCurrentUser()._id;
+      cl.setActiveOrder = function (order){
+        angular.copy(order, cl.rollbackOrder);
+        cl.currentOrder = order;
+      };
 
-      cl.newOrder.$save(function () {
-        cl.orders.push(cl.newOrder);
-        cl.newOrder = new Order();
-      });
+      cl.save = function () {
+        OrderRepo.validateAndSave(cl.currentOrder)
+          .then(handleSuccess)
+          .catch(handleError);
+      };
 
-      cl.orders = Order.query();
-      return false;
-    };
+      cl.delete = function () {
+        OrderRepo.delete(cl.currentOrder)
+          .then(handleSuccess)
+          .catch(handleError);
+      };
 
+      function createNewOrder() {
+        var result = OrderRepo.createNew();
+        result._user = Auth.getCurrentUser()._id;
+        return result;
+      };
+
+      var handleError = function (reason) {
+        alert(JSON.stringify(reason.data));  //todo handle better
+        if(cl.rollbackOrder){
+          angular.copy(cl.rollbackOrder, cl.currentOrder);
+        }
+      };
+
+      var handleSuccess = function () {
+        cl.currentOrder = createNewOrder();
+        cl.rollbackOrder = {};
+      };
   }]);

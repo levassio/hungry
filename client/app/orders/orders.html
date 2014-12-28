@@ -1,6 +1,6 @@
 <div class="col-sm-9">
   <table class="table table-striped table-hover table-condensed">
-    <tr ng-repeat="order in cl.orders">
+    <tr ng-repeat="order in cl.orders" ng-click="cl.setActiveOrder(order)">
       <td>
         {{order._user.name}}
       </td>
@@ -23,12 +23,12 @@
   <form ng-submit="cl.save()">
     <div class="col-sm-6">
       <select class="form-control"
-              ng-model="cl.newOrder._dish"
+              ng-model="cl.currentOrder._dish"
               ng-options="dish._id as dish.name for dish in cl.dishes">
       </select>
     </div>
     <div class="col-sm-3">
-      <input class="form-control" type="text" ng-model="cl.newOrder.comment"/>
+      <input class="form-control" type="text" ng-model="cl.currentOrder.comment"/>
     </div>
     <div class="col-sm-3">
       <input type="submit" class="btn btn-primary" value="Save"/>
