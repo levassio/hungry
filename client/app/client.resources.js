@@ -26,17 +26,10 @@ angular.module('hungryApp')
     };
 
     var save = function (dish) {
-      return $q(function (resolve, reject) {
-        if (_.contains(repo, dish)) {
-          res.update(resolve, reject);
-        }
-        else {
-          dish.$save(function (value) {
-              resolve(value);
-              repo.push(dish);
-            },
-            reject);
-        }
+      return _.contains(repo, dish)
+        ? dish.$update({ id: dish._id })
+        : dish.$save(function () {
+        repo.push(dish);
       });
     };
 
@@ -46,9 +39,7 @@ angular.module('hungryApp')
           .then(function () {
             resolve(save(dish));
           })
-          .catch(function (reason) {
-            reject(reason);
-          });
+          .catch(reject);
       });
     };
 
