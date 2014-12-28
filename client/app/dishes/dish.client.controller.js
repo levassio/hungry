@@ -1,25 +1,26 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('DishesCtrl', function (Dish) {
+  .controller('DishesCtrl', function (DishRepo) {
     var cl = this;
 
-    cl.newDish = new Dish();
-    cl.dishes = Dish.query();
+    cl.currentDish = DishRepo.createNew();
+    cl.dishes = DishRepo.all;
+
+    var handleError = function (reason) {
+      alert(JSON.stringify(reason.data));  //todo handle better
+    };
 
     cl.save = function () {
-      cl.newDish.$save(function () {
-        cl.dishes.push(cl.newDish);
-        cl.newDish = new Dish();
-      });
-
-      return false;
+      DishRepo.validateAndSave(cl.currentDish)
+        .then(function () {
+          cl.currentDish = DishRepo.createNew();
+        })
+        .catch(handleError);
     };
 
-    cl.delete = function (dish) {
-      Dish.delete(dish, function () {
-        _.remove(cl.dishes, dish);
-      });
+    cl.delete = function () {
+      DishRepo.delete(cl.currentDish)
+        .catch(handleError);
     };
-
   });

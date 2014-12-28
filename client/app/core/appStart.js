@@ -1,31 +1,42 @@
 "use strict";
 
 angular.module('hungryApp')
-  .factory('AppStart', function (Dish, Order, $rootScope, $q) {
+  .factory('AppStart', ['DishRepo', 'Order', '$rootScope', '$q',
+    function (DishRepo, Order, $rootScope, $q) {
 
       var start = function () {
-        var deferredDishes = $q.defer();
-        var deferredOrders = $q.defer();
+        var p2 = $q(Order.query);
 
-        var dishes = Dish.query(function () {
-          deferredDishes.resolve(dishes);
-        });
-
-        var orders = Order.query(function () {
-          deferredOrders.resolve(orders);
-        });
-
-        $q.all([deferredDishes.promise, deferredOrders.promise])
+        $q.all([DishRepo.ready, p2])
           .then(function () {
             $rootScope.app_ready = true;
           })
           .catch(function () {
             //todo: log error
           });
+
+        //var deferredDishes = $q.defer();
+        //var deferredOrders = $q.defer();
+        //
+        //var dishes = Dish.query(function () {
+        //  deferredDishes.resolve(dishes);
+        //});
+        //
+        //var orders = Order.query(function () {
+        //  deferredOrders.resolve(orders);
+        //});
+        //
+        //$q.all([deferredDishes.promise, deferredOrders.promise])
+        //  .then(function () {
+        //    $rootScope.app_ready = true;
+        //  })
+        //  .catch(function () {
+        //    //todo: log error
+        //  });
       };
 
       return {
         start: start
       };
-    });
+    }]);
 

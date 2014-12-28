@@ -1,13 +1,18 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema;
 
 var DishSchema = new Schema({
-  id: Number,
-  name: String,
-  price: Number,
-  active: Boolean
+  name: {
+    type: String, required: true
+  },
+  price: {
+    type: Number, required: true
+  },
+  active: {
+    type: Boolean, default: true
+  }
 });
 
 module.exports = mongoose.model('Dish', DishSchema);

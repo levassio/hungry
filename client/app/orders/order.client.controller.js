@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('OrdersCtrl', function (Auth, Order, Dish) {
+  .controller('OrdersCtrl',['Auth','Order','DishRepo',
+    function (Auth, Order, DishRepo) {
     var cl = this;
 
     cl.newOrder = new Order();
     cl.orders = Order.query();
-    cl.dishes = Dish.query();
+    cl.dishes = DishRepo.all;
 
     cl.save = function () {
       cl.newOrder._user = Auth.getCurrentUser()._id;
@@ -20,4 +21,4 @@ angular.module('hungryApp')
       return false;
     };
 
-  });
+  }]);
