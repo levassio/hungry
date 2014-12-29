@@ -5,7 +5,7 @@ angular.module('hungryApp')
     function (Auth, OrderRepo, DishRepo) {
       var cl = this;
 
-      cl.currentOrder = createNewOrder();
+      cl.currentOrder = OrderRepo.createNew();
       cl.orders = OrderRepo.all;
       cl.rollbackOrder = {};
       cl.dishes = DishRepo.all;
@@ -16,6 +16,7 @@ angular.module('hungryApp')
       };
 
       cl.save = function () {
+        cl.currentOrder._user = Auth.getCurrentUser();
         OrderRepo.validateAndSave(cl.currentOrder)
           .then(handleSuccess)
           .catch(handleError);
@@ -27,12 +28,6 @@ angular.module('hungryApp')
           .catch(handleError);
       };
 
-      function createNewOrder() {
-        var result = OrderRepo.createNew();
-        result._user = Auth.getCurrentUser()._id;
-        return result;
-      };
-
       var handleError = function (reason) {
         alert(JSON.stringify(reason.data));  //todo handle better
         if(cl.rollbackOrder){
@@ -41,7 +36,7 @@ angular.module('hungryApp')
       };
 
       var handleSuccess = function () {
-        cl.currentOrder = createNewOrder();
+        cl.currentOrder = OrderRepo.createNew();
         cl.rollbackOrder = {};
       };
   }]);

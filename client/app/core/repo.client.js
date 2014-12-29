@@ -21,7 +21,10 @@ angular.module('hungryApp').
           };
 
           var save = function (entity) {
-            return _.contains(repo, entity)
+
+            var contains = _.contains(repo, entity);
+
+            return contains
               ? entity.$update({ id: entity._id })
               : entity.$save(function () {
               repo.push(entity);

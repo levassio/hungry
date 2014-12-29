@@ -24,7 +24,7 @@
     <div class="col-sm-6">
       <select class="form-control"
               ng-model="cl.currentOrder._dish"
-              ng-options="dish._id as dish.name for dish in cl.dishes">
+              ng-options="dish as dish.name for dish in cl.dishes">
       </select>
     </div>
     <div class="col-sm-3">
@@ -34,5 +34,9 @@
       <input type="submit" class="btn btn-primary" value="Save"/>
     </div>
   </form>
+  {{cl.currentOrder._dish.name}}
+  {{cl.currentOrder._dish}}
+
+
 
 </div>
