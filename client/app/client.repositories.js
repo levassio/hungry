@@ -15,10 +15,15 @@ angular.module('hungryApp')
   .factory('OrderRepo', ['$resource', 'Repo', function ($resource, Repo) {
 
     var res = $resource('/api/orders/:id', {}, {
-      update:{
+      update: {
         method: 'PUT'
       }
     });
 
+    return new Repo(res);
+  }])
+
+  .factory('UserRepo', ['$resource', 'Repo', function ($resource, Repo) {
+    var res = $resource('/api/users/:id');
     return new Repo(res);
   }]);

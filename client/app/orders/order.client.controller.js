@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('OrdersCtrl',['Auth','OrderRepo','DishRepo',
-    function (Auth, OrderRepo, DishRepo) {
+  .controller('OrdersCtrl',['Auth', 'OrderRepo', 'DishRepo', 'UserRepo',
+    function (Auth, OrderRepo, DishRepo, UserRepo) {
       var cl = this;
 
       cl.currentOrder = OrderRepo.createNew();
@@ -10,16 +10,30 @@ angular.module('hungryApp')
       cl.rollbackOrder = {};
       cl.dishes = DishRepo.all;
 
+      cl.getDish = function (order) {
+        return _.find(DishRepo.all, function (dish) {
+          return dish._id == order._dish;
+        });
+      };
+
+      cl.getUser = function(order){
+        return _.find(UserRepo.all, function (user) {
+          return user._id == order._user;
+        });
+      };
+
       cl.setActiveOrder = function (order){
         angular.copy(order, cl.rollbackOrder);
         cl.currentOrder = order;
       };
 
       cl.save = function () {
-        cl.currentOrder._user = Auth.getCurrentUser();
+
+        cl.currentOrder._user = Auth.getCurrentUser()._id;
         OrderRepo.validateAndSave(cl.currentOrder)
           .then(handleSuccess)
           .catch(handleError);
+
       };
 
       cl.delete = function () {

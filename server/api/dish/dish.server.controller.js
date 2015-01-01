@@ -3,57 +3,70 @@
 var _ = require('lodash');
 var Dish = require('./dish.server.model.js');
 
-// Get list of dishes
-exports.index = function(req, res) {
-  Dish.find(function (err, dishes) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, dishes);
-  });
-};
-
-// Get a single dish
-exports.show = function(req, res) {
-  Dish.findById(req.params.id, function (err, dish) {
-    if(err) { return handleError(res, err); }
-    if(!dish) { return res.send(404); }
-    return res.json(dish);
-  });
-};
-
-// Creates a new dish in the DB.
-exports.create = function(req, res) {
-  Dish.create(req.body, function(err, dish) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, dish);
-  });
-};
-
-// Updates an existing dish in the DB.
-exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Dish.findById(req.params.id, function (err, dish) {
-    if (err) { return handleError(res, err); }
-    if(!dish) { return res.send(404); }
-    var updated = _.merge(dish, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, dish);
+exports.decorateRequestWithDish = function (req, res, next, id) {
+  Dish.findById(id)
+    .exec(function (err, entity) {
+      if (err) {
+        next(err);
+      } else if (!entity) {
+        res.send(404);
+      } else {
+        req.decoratedDish = entity;
+        next();
+      }
     });
+};
+
+exports.find = function (req, res, next) {
+  Dish.find().exec(function (err, entities) {
+    if (err) {
+      next(err);
+    } else {
+      res.json(200, entities);
+    }
   });
 };
 
-// Deletes a dish from the DB.
-exports.destroy = function(req, res) {
-  Dish.findById(req.params.id, function (err, dish) {
-    if(err) { return handleError(res, err); }
-    if(!dish) { return res.send(404); }
-    dish.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
+exports.findById = function (req, res) {
+  res.json(200, req.decoratedDish);
+};
+
+exports.create = function (req, res, next) {
+  Dish.create(req.body, function (err, entity) {
+
+    //todo: set user to logged in user
+    //todo: see if dish is set correctly here
+
+    if (err) {
+      next(err);
+    } else {
+      res.json(201, entity);
+    }
   });
 };
 
-function handleError(res, err) {
-  return res.send(500, err);
-}
+exports.update = function (req, res, next) {
+  if (req.body._id) {
+    delete req.body._id;
+  }
+
+  var updated = _.extend(req.decoratedDish, req.body);
+
+  updated.save(function (err) {
+    if (err) {
+      next(err);
+    } else {
+      res.json(200, updated);
+    }
+  });
+};
+
+exports.remove = function (req, res, next) {
+  req.decoratedDish.remove(function (err) {
+    if (err) {
+      next(err);
+    } else {
+      res.send(204);
+    }
+  });
+};

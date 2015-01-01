@@ -3,7 +3,7 @@ angular.module('hungryApp').
     this.$get = ['$q',
       function ($q) {
 
-        function RepoBase($res) {
+        function RepoBase($res, decorators) {
           var repo = $res.query();
 
           var create = function () {
@@ -42,9 +42,9 @@ angular.module('hungryApp').
           };
 
           var remove = function (entity) {
-            var deferred = $q.defer();
-
-            return deferred.promise;
+            return entity.$remove({ id: entity._id }, function () {
+              _.pull(repo, entity);
+            });
           };
 
           this.all = repo;

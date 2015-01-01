@@ -12,6 +12,13 @@ angular.module('hungryApp', [
   'ui.router',
   'ui.bootstrap'
 ])
+  .directive("showered", function () {
+    return function (scope, element) {
+      element.on('onmouseover', function () {
+        alert("mouse over");
+      });
+    };
+  })
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
       .otherwise('/');

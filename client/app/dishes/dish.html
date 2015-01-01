@@ -1,12 +1,17 @@
 <div class="col-sm-6">
-  <table class="table table-striped table-hover table-condensed">
-    <tr ng-repeat="dish in cl.dishes" ng-click="cl.setActiveDish(dish)">
-        <td>
-          {{dish.name}}
-        </td>
-        <td>
-          ${{dish.price}}
-        </td>
+  <table class="table table-striped table-hover table-condensed" ng-mouseleave="cl.hover(null)">
+    <tr ng-repeat="dish in cl.dishes" ng-mouseenter="cl.hover(dish)">
+      <td ng-click="cl.setActiveDish(dish)">
+        {{dish.name}}
+      </td>
+      <td ng-click="cl.setActiveDish(dish)">
+        ${{dish.price}}
+      </td>
+      <td>
+        <a class="glyphicon glyphicon-remove"
+           ng-show="dish.hover"
+           ng-click="cl.delete(dish)"></a>
+      </td>
     </tr>
   </table>
   <br/>
