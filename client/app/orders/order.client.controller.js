@@ -27,6 +27,12 @@ angular.module('hungryApp')
         cl.currentOrder = order;
       };
 
+      cl.hover = function (hovered) {
+        angular.forEach(cl.orders, function (order) {
+          order.hover = order == hovered;
+        });
+      };
+
       cl.save = function () {
 
         cl.currentOrder._user = Auth.getCurrentUser()._id;
@@ -36,8 +42,8 @@ angular.module('hungryApp')
 
       };
 
-      cl.delete = function () {
-        OrderRepo.delete(cl.currentOrder)
+      cl.delete = function (order) {
+        OrderRepo.delete(order)
           .then(handleSuccess)
           .catch(handleError);
       };

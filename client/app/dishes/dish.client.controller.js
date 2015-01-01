@@ -29,6 +29,7 @@ angular.module('hungryApp')
 
     cl.delete = function (dish) {
       DishRepo.delete(dish)
+        .then(handleSuccess)
         .catch(handleError);
     };
 
