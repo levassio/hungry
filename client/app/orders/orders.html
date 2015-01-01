@@ -1,7 +1,7 @@
 <div class="col-sm-9">
-  <table class="table table-striped table-hover table-condensed" ng-mouseleave="cl.hover(null)">
-    <tr ng-repeat="order in cl.orders" ng-mouseenter="cl.hover(order)">
-      <td ng-click="cl.setActiveOrder(order)">
+  <table class="table table-striped table-hover table-condensed table-bordered" ng-mouseleave="cl.hover(null)">
+    <tr ng-repeat="order in cl.orders" ng-mouseenter="cl.hover(order)" ng-class="order == cl.currentOrder ? 'active' : ''">
+      <td ng-click="cl.setActiveOrder(order)" ng-class="cl.activeClass(order)">
         {{cl.getUser(order).name}}
       </td>
       <td ng-click="cl.setActiveOrder(order)">
@@ -27,7 +27,7 @@
 
   <form ng-submit="cl.save()">
     <div class="col-sm-6">
-      <select class="form-control"
+      <select id="dishNameSelect" class="form-control"
               ng-model="cl.currentOrder._dish"
               ng-options="dish._id as dish.name for dish in cl.dishes">
       </select>

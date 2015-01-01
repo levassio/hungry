@@ -1,5 +1,5 @@
 <div class="col-sm-6">
-  <table class="table table-striped table-hover table-condensed" ng-mouseleave="cl.hover(null)">
+  <table class="table table-striped table-hover table-condensed table-bordered" ng-mouseleave="cl.hover(null)">
     <tr ng-repeat="dish in cl.dishes" ng-mouseenter="cl.hover(dish)">
       <td ng-click="cl.setActiveDish(dish)">
         {{dish.name}}
@@ -16,7 +16,7 @@
 
   <form ng-submit="cl.save()">
     <div class="col-sm-6">
-      <input class="form-control" type="text" ng-model="cl.currentDish.name"/>
+      <input id="dishNameInput" class="form-control" type="text" ng-model="cl.currentDish.name"/>
     </div>
     <div class="col-sm-3">
       <input class="form-control" type="text" ng-model="cl.currentDish.price"/>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('DishesCtrl', function (DishRepo) {
+  .controller('DishesCtrl', ['DishRepo', 'Focus', function (DishRepo, Focus) {
     var cl = this;
 
     cl.hh = "init";
@@ -10,7 +10,7 @@ angular.module('hungryApp')
     cl.dishes = DishRepo.all;
     cl.rollbackDish = {};
 
-    cl.setActiveDish = function (dish){
+    cl.setActiveDish = function (dish) {
       angular.copy(dish, cl.rollbackDish);
       cl.currentDish = dish;
     };
@@ -35,7 +35,7 @@ angular.module('hungryApp')
 
     var handleError = function (reason) {
       alert(JSON.stringify(reason.data));  //todo handle better
-      if(cl.rollbackDish){
+      if (cl.rollbackDish) {
         angular.copy(cl.rollbackDish, cl.currentDish);
       }
     };
@@ -43,5 +43,6 @@ angular.module('hungryApp')
     var handleSuccess = function () {
       cl.currentDish = DishRepo.createNew();
       cl.rollbackDish = {};
+      Focus('dishNameInput');
     };
-  });
+  }]);

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('hungryApp')
-  .controller('OrdersCtrl',['Auth', 'OrderRepo', 'DishRepo', 'UserRepo',
-    function (Auth, OrderRepo, DishRepo, UserRepo) {
+  .controller('OrdersCtrl',['Auth', 'OrderRepo', 'DishRepo', 'UserRepo', 'Focus',
+    function (Auth, OrderRepo, DishRepo, UserRepo, Focus) {
       var cl = this;
 
       cl.currentOrder = OrderRepo.createNew();
@@ -58,5 +58,6 @@ angular.module('hungryApp')
       var handleSuccess = function () {
         cl.currentOrder = OrderRepo.createNew();
         cl.rollbackOrder = {};
+        Focus('dishNameSelect');
       };
   }]);
