@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('hungryApp')
-  .factory('DishRepo', ['$resource', 'Repo', function ($resource, Repo) {
+  .factory('DishRepo', ['$resource', 'Repo', 'OrderRepo', function ($resource, Repo, OrderRepo) {
 
     var res = $resource('/api/dishes/:id', {}, {
       update: {
@@ -9,7 +9,7 @@ angular.module('hungryApp')
       }
     });
 
-    return new Repo(res);
+    return new Repo(res, [OrderRepo]);
   }])
 
   .factory('OrderRepo', ['$resource', 'Repo', function ($resource, Repo) {

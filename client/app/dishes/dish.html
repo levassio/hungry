@@ -7,10 +7,8 @@
       <td ng-click="cl.setActiveDish(dish)">
         ${{dish.price}}
       </td>
-      <td>
-        <a href="#" class="glyphicon glyphicon-remove"
-           ng-show="dish.hover"
-           ng-click="cl.delete(dish)"></a>
+      <td ng-click="cl.delete(dish)">
+        <a href="#" class="glyphicon glyphicon-remove" ng-show="dish.hover"></a>
       </td>
     </tr>
   </table>
