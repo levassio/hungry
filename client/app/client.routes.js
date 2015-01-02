@@ -7,37 +7,37 @@ angular.module('hungryApp')
         url: '/',
         templateUrl: 'app/orders/orders.html',
         controller: 'OrdersCtrl',
-        controllerAs: 'cl'
+        controllerAs: 'vm'
       })
       .state('dishes', {
         url: '/dishes',
         templateUrl: 'app/dishes/dish.html',
         controller: 'DishesCtrl',
-        controllerAs: 'cl'
+        controllerAs: 'vm'
       })
       .state('admin', {
         url: '/admin',
         templateUrl: 'app/admin/admin.html',
         controller: 'AdminCtrl',
-        controllerAs: 'cl'
+        controllerAs: 'vm'
       })
       .state('login', {
         url: '/login',
         templateUrl: 'app/account/login/login.html',
         controller: 'LoginCtrl',
-        controllerAs: 'cl'
+        controllerAs: 'vm'
       })
       .state('signup', {
         url: '/signup',
         templateUrl: 'app/account/signup/signup.html',
         controller: 'SignupCtrl',
-        controllerAs: 'cl'
+        controllerAs: 'vm'
       })
       .state('settings', {
         url: '/settings',
         templateUrl: 'app/account/settings/settings.html',
         controller: 'SettingsCtrl',
-        controllerAs: 'cl',
+        controllerAs: 'vm',
         authenticate: true
       });
   });

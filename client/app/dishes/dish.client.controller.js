@@ -2,32 +2,32 @@
 
 angular.module('hungryApp')
   .controller('DishesCtrl', ['DishRepo', 'Focus', function (DishRepo, Focus) {
-    var cl = this;
+    var vm = this;
 
-    cl.hh = "init";
+    vm.hh = "init";
 
-    cl.currentDish = DishRepo.createNew();
-    cl.dishes = DishRepo.all;
-    cl.rollbackDish = {};
+    vm.currentDish = DishRepo.createNew();
+    vm.dishes = DishRepo.all;
+    vm.rollbackDish = {};
 
-    cl.setActiveDish = function (dish) {
-      angular.copy(dish, cl.rollbackDish);
-      cl.currentDish = dish;
+    vm.setActiveDish = function (dish) {
+      angular.copy(dish, vm.rollbackDish);
+      vm.currentDish = dish;
     };
 
-    cl.hover = function (hovered) {
-      angular.forEach(cl.dishes, function (dish) {
+    vm.hover = function (hovered) {
+      angular.forEach(vm.dishes, function (dish) {
         dish.hover = dish == hovered;
       });
     };
 
-    cl.save = function () {
-      DishRepo.validateAndSave(cl.currentDish)
+    vm.save = function () {
+      DishRepo.validateAndSave(vm.currentDish)
         .then(handleSuccess)
         .catch(handleError);
     };
 
-    cl.delete = function (dish) {
+    vm.delete = function (dish) {
       DishRepo.delete(dish)
         .then(handleSuccess)
         .catch(handleError);
@@ -35,14 +35,14 @@ angular.module('hungryApp')
 
     var handleError = function (reason) {
       alert(JSON.stringify(reason.data));  //todo handle better
-      if (cl.rollbackDish) {
-        angular.copy(cl.rollbackDish, cl.currentDish);
+      if (vm.rollbackDish) {
+        angular.copy(vm.rollbackDish, vm.currentDish);
       }
     };
 
     var handleSuccess = function () {
-      cl.currentDish = DishRepo.createNew();
-      cl.rollbackDish = {};
+      vm.currentDish = DishRepo.createNew();
+      vm.rollbackDish = {};
       Focus('dishNameInput');
     };
   }]);

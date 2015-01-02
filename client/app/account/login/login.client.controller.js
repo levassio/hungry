@@ -2,24 +2,24 @@
 
 angular.module('hungryApp')
   .controller('LoginCtrl', function (Auth, $location) {
-    var cl = this;
+    var vm = this;
 
-    cl.user = {};
-    cl.errors = {};
+    vm.user = {};
+    vm.errors = {};
 
-    cl.login = function (form) {
-      cl.submitted = true;
+    vm.login = function (form) {
+      vm.submitted = true;
 
       if (form.$valid) {
         Auth.login({
-          email: cl.user.email,
-          password: cl.user.password
+          email: vm.user.email,
+          password: vm.user.password
         })
           .then(function () {
             $location.path('/');
           })
           .catch(function (err) {
-            cl.errors.other = err.message;
+            vm.errors.other = err.message;
           });
       }
     };

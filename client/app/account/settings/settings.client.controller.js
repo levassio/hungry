@@ -2,21 +2,21 @@
 
 angular.module('hungryApp')
   .controller('SettingsCtrl', function (User, Auth) {
-    var cl = this;
+    var vm = this;
 
-    cl.errors = {};
+    vm.errors = {};
 
-    cl.changePassword = function (form) {
-      cl.submitted = true;
+    vm.changePassword = function (form) {
+      vm.submitted = true;
       if (form.$valid) {
         Auth.changePassword($scope.user.oldPassword, $scope.user.newPassword)
           .then(function () {
-            cl.message = 'Password successfully changed.';
+            vm.message = 'Password successfully changed.';
           })
           .catch(function () {
             form.password.$setValidity('mongoose', false);
-            cl.errors.other = 'Incorrect password';
-            cl.message = '';
+            vm.errors.other = 'Incorrect password';
+            vm.message = '';
           });
       }
     };

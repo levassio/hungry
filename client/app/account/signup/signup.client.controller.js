@@ -2,19 +2,19 @@
 
 angular.module('hungryApp')
   .controller('SignupCtrl', function (Auth, $location) {
-    var cl = this;
+    var vm = this;
 
-    cl.user = {};
-    cl.errors = {};
+    vm.user = {};
+    vm.errors = {};
 
-    cl.register = function (form) {
-      cl.submitted = true;
+    vm.register = function (form) {
+      vm.submitted = true;
 
       if (form.$valid) {
         Auth.createUser({
-          name: cl.user.name,
-          email: cl.user.email,
-          password: cl.user.password
+          name: vm.user.name,
+          email: vm.user.email,
+          password: vm.user.password
         })
           .then(function () {
             // Account created, redirect to home
@@ -22,12 +22,12 @@ angular.module('hungryApp')
           })
           .catch(function (err) {
             err = err.data;
-            cl.errors = {};
+            vm.errors = {};
 
             // Update validity of form fields that match the mongoose errors
             angular.forEach(err.errors, function (error, field) {
               form[field].$setValidity('mongoose', false);
-              cl.errors[field] = error.message;
+              vm.errors[field] = error.message;
             });
           });
       }

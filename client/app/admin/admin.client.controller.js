@@ -2,15 +2,15 @@
 
 angular.module('hungryApp')
   .controller('AdminCtrl', function (Auth, User) {
-    var cl = this;
+    var vm = this;
 
-    cl.users = User.query();
+    vm.users = User.query();
 
-    cl.delete = function (user) {
+    vm.delete = function (user) {
       User.delete({ id: user._id });  //todo: use callback to be sure it's deleted
-      angular.forEach(cl.users, function (u, i) {
+      angular.forEach(vm.users, function (u, i) {
         if (u === user) {
-          cl.users.splice(i, 1);
+          vm.users.splice(i, 1);
         }
       });
     };

@@ -1,39 +1,40 @@
 <div class="col-sm-9">
-  <table class="table table-striped table-hover table-condensed table-bordered" ng-mouseleave="cl.hover(null)">
-    <tr ng-repeat="order in cl.orders" ng-mouseenter="cl.hover(order)" ng-class="order == cl.currentOrder ? 'active' : ''">
-      <td ng-click="cl.setActiveOrder(order)" ng-class="cl.activeClass(order)">
-        {{cl.getUser(order).name}}
+  <table class="table table-striped table-hover table-condensed table-bordered" ng-mouseleave="vm.hover(null)">
+    <tr ng-repeat="order in vm.orders" ng-mouseenter="vm.hover(order)"
+        ng-class="order == vm.currentOrder ? 'active' : ''">
+      <td ng-click="vm.setActiveOrder(order)">
+        {{vm.getUser(order).name}}
       </td>
-      <td ng-click="cl.setActiveOrder(order)">
-        {{cl.getDish(order).name}}
+      <td ng-click="vm.setActiveOrder(order)">
+        {{vm.getDish(order).name}}
       </td>
-      <td ng-click="cl.setActiveOrder(order)">
+      <td ng-click="vm.setActiveOrder(order)">
         {{order.comment}}
       </td>
-      <td ng-click="cl.setActiveOrder(order)">
-        {{cl.getDish(order).price}}
+      <td ng-click="vm.setActiveOrder(order)">
+        {{vm.getDish(order).price}}
       </td>
-      <td ng-click="cl.setActiveOrder(order)">
+      <td ng-click="vm.setActiveOrder(order)">
         {{order.isPaid}}
       </td>
       <td>
         <a href="#" class="glyphicon glyphicon-remove"
            ng-show="order.hover"
-           ng-click="cl.delete(order)"></a>
+           ng-click="vm.delete(order)"></a>
       </td>
     </tr>
   </table>
   <br/>
 
-  <form ng-submit="cl.save()">
+  <form ng-submit="vm.save()">
     <div class="col-sm-6">
       <select id="dishNameSelect" class="form-control"
-              ng-model="cl.currentOrder._dish"
-              ng-options="dish._id as dish.name for dish in cl.dishes">
+              ng-model="vm.currentOrder._dish"
+              ng-options="dish._id as dish.name for dish in vm.dishes">
       </select>
     </div>
     <div class="col-sm-3">
-      <input class="form-control" type="text" ng-model="cl.currentOrder.comment"/>
+      <input class="form-control" type="text" ng-model="vm.currentOrder.comment"/>
     </div>
     <div class="col-sm-3">
       <input type="submit" class="btn btn-primary" value="Save"/>

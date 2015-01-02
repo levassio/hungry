@@ -3,7 +3,7 @@
     <h1>Change Password</h1>
   </div>
   <div class="col-sm-3">
-    <form class="form" name="form" ng-submit="cl.changePassword(form)" novalidate>
+    <form class="form" name="form" ng-submit="vm.changePassword(form)" novalidate>
 
       <div class="form-group">
         <label for="oldPassword">Current Password</label>
@@ -12,7 +12,7 @@
                ng-model="cl.user.oldPassword" mongoose-error/>
 
         <p class="help-block" ng-show="form.password.$error.mongoose">
-          {{ cl.errors.other }} </p>
+          {{ vm.errors.other }} </p>
       </div>
 
       <div class="form-group">
@@ -24,11 +24,11 @@
                required/>
 
         <p class="help-block"
-           ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || cl.submitted)">
+           ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || vm.submitted)">
           Password must be at least 3 characters. </p>
       </div>
 
-      <p class="help-block"> {{ cl.message }} </p>
+      <p class="help-block"> {{ vm.message }} </p>
 
       <button class="btn btn-lg btn-primary" type="submit">Save changes</button>
     </form>
